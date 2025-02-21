@@ -34,6 +34,11 @@ def get_route(start, target, waypoints=None):
         return pd.DataFrame(route_coordinates,
                       columns=["lon", "lat"])
     return []
-    response = requests.get(url)
-    data = json.loads(response.text)
-    return data
+
+def start_target_waypoints_to_str(start, target, waypoints):
+    route = f"{start[1]},{start[0]};"
+    if isinstance(waypoints, list):
+        for wp in waypoints:
+            route += f"{wp[1]},{wp[0]};"
+    route += f"{target[1]},{target[0]}"
+    return route
