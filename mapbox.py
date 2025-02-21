@@ -1,5 +1,4 @@
 import os
-import pandas as pd
 import requests
 import json
 from dotenv import load_dotenv
@@ -29,10 +28,10 @@ def get_route(start, target, waypoints=None):
     url = f"https://api.mapbox.com/directions/v5/mapbox/driving/{route_str}?geometries=geojson&access_token={API_TOKEN}"
     response = requests.get(url)
     data = json.loads(response.text)
-    if "routes" in data:
+    if "routes" in data.keys():
         route_coordinates = data["routes"][0]["geometry"]["coordinates"]
-        return pd.DataFrame(route_coordinates,
-                      columns=["lon", "lat"])
+        return route_coordinates
+    return []
     return []
 
 def start_target_waypoints_to_str(start, target, waypoints):

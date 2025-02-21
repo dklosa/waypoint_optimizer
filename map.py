@@ -1,8 +1,8 @@
 import streamlit as st
 import pydeck as pdk
 
-def map(df, route_df):
-    route_data = [{"path": route_df[["lon", "lat"]].values.tolist()}]
+def map(df, route):
+    route_data = [{"path": route}]
     layers = [
         pdk.Layer(
             "ScatterplotLayer",
