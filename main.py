@@ -1,3 +1,4 @@
+from map import map
 from mapbox import get_coordinates_from_address
 import pandas as pd
 import streamlit as st
@@ -33,3 +34,4 @@ if isclicked("submit"):
             checkpoints_coordinates.append(get_coordinates_from_address(checkpoint))
     df = pd.DataFrame([start_coordinates, target_coordinates, *checkpoints_coordinates],
                       columns=["lon", "lat"])
+    map(df)
