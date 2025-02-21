@@ -1,3 +1,5 @@
+from mapbox import get_coordinates_from_address
+import pandas as pd
 import streamlit as st
 
 st.session_state.clicks = {}
@@ -19,3 +21,15 @@ checkpoints = st.text_area("Waypoint addresses.", key="waypoints")
 
 if st.button("Submit addresses.", key="submit"):
     click("submit")
+
+if isclicked("submit"):
+    if not start or not target:
+        st.exception(Exception("Start and Target need to be set."))
+    start_coordinates = get_coordinates_from_address(start)
+    target_coordinates = get_coordinates_from_address(target)
+    checkpoints_coordinates = []
+    if checkpoints:
+        for checkpoint in checkpoints.split("\n"):
+            checkpoints_coordinates.append(get_coordinates_from_address(checkpoint))
+    df = pd.DataFrame([start_coordinates, target_coordinates, *checkpoints_coordinates],
+                      columns=["lon", "lat"])
