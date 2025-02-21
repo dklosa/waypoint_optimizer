@@ -32,6 +32,17 @@ def get_route(start, target, waypoints=None):
         route_coordinates = data["routes"][0]["geometry"]["coordinates"]
         return route_coordinates
     return []
+
+def travelingsalesman(start, target, waypoints=None):
+    route_str = start_target_waypoints_to_str(start, target, waypoints)
+    url = f"https://api.mapbox.com/optimized-trips/v1/mapbox/driving/{route_str}?geometries=geojson&source=first&destination=last&roundtrip=false&access_token={API_TOKEN}"
+    response = requests.get(url)
+    data = json.loads(response.text)
+    if not data["code"] == "Ok":
+        raise Exception("Something went wrong with Mapbox API when searching for optimal route.")
+    if "trips" in data.keys():
+        route_coordinates = data["trips"][0]["geometry"]["coordinates"]
+        return route_coordinates
     return []
 
 def start_target_waypoints_to_str(start, target, waypoints):
