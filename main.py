@@ -35,7 +35,4 @@ if isclicked("submit"):
                 checkpoints_coordinates.append(get_coordinates_from_address(checkpoint))
     df = pd.DataFrame([start_coordinates, target_coordinates, *checkpoints_coordinates],
                       columns=["lon", "lat"])
-    #route = get_route(start_coordinates[::-1], target_coordinates[::-1])
-    route = travelingsalesman(start_coordinates[::-1], target_coordinates[::-1], [c[::-1] for c in checkpoints_coordinates])
-    print(route)
-    map(df, route)
+    route, waypoint_order = travelingsalesman(start_coordinates[::-1], target_coordinates[::-1], [c[::-1] for c in checkpoints_coordinates])

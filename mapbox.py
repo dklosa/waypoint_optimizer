@@ -41,9 +41,13 @@ def travelingsalesman(start, target, waypoints=None):
     if not data["code"] == "Ok":
         raise Exception("Something went wrong with Mapbox API when searching for optimal route.")
     if "trips" in data.keys():
+        waypoint_order = []
+        if "waypoints" in data.keys():
+            for wp in data["waypoints"]:
+                waypoint_order.append(wp["waypoint_index"])
         route_coordinates = data["trips"][0]["geometry"]["coordinates"]
-        return route_coordinates
-    return []
+        return route_coordinates, waypoint_order
+    return [], []
 
 def start_target_waypoints_to_str(start, target, waypoints):
     route = f"{start[1]},{start[0]};"
