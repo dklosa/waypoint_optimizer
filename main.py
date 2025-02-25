@@ -4,7 +4,8 @@ from mapbox import *
 import pandas as pd
 import streamlit as st
 
-st.session_state.clicks = {}
+if "clicks" not in st.session_state:
+    st.session_state.clicks = {}
 
 def click(key):
     st.session_state.clicks[key] = True
