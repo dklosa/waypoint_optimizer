@@ -1,24 +1,19 @@
 import json
-import pycountry
 import requests
 import streamlit as st
+import uuid
 
 API_TOKEN = st.secrets["MAPBOX_API_TOKEN"]
-
-COUNTRIES = {}
-for country in pycountry.countries:
-    COUNTRIES[country.name] = country.alpha_2
+UUID = uuid.uuid4()
 
 class CoordinatesNotFoundException(Exception):
     def __init__(self, address):
         self.message = f"Coordinates were not found for address {address}"
         super().__init__(self.message)
 
-def get_coordinates_from_address(address, country, prox=""):
-    country_code = COUNTRIES.get(country, None)
-    if not country_code: st.error("Unknown country code.")
+def get_coordinates_from_address(address, prox=""):
     if prox: prox = f"&proximity={prox[0]},{prox[1]}"
-    url = f"https://api.mapbox.com/search/geocode/v6/forward?q={address}&limit=1&country={country_code}{prox}&access_token={API_TOKEN}"
+    url = f"https://api.mapbox.com/search/geocode/v6/forward?q={address}&limit=1{prox}&access_token={API_TOKEN}"
     response = requests.get(url)
     data = json.loads(response.text)
     if len(data["features"]) == 0:
@@ -28,6 +23,14 @@ def get_coordinates_from_address(address, country, prox=""):
         raise Exception("Something went wrong when calling Mapbox API.")
     coordinates = feature["geometry"]["coordinates"]
     return coordinates
+
+def get_suggestions(address):
+    url = f"https://api.mapbox.com/search/searchbox/v1/suggest?q={address}&limit=5&session_token={UUID}&access_token={API_TOKEN}"
+    response = requests.get(url)
+    data = json.loads(response.text)
+    if "suggestions" in data.keys():
+        return [sug["full_address"] for sug in data["suggestions"] if "full_address" in sug.keys()]
+    return []
 
 def get_route(start, target, waypoints=None):
     route_str = start_target_waypoints_to_str(start, target, waypoints)
