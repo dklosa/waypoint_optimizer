@@ -1,10 +1,9 @@
+import json
 import os
 import requests
-import json
-from dotenv import load_dotenv
+import streamlit as st
 
-load_dotenv()
-API_TOKEN = os.getenv("MAPBOX_API_TOKEN")
+API_TOKEN = st.secrets["MAPBOX_API_TOKEN"]
 
 class CoordinatesNotFoundException(Exception):
     def __init__(self, address):
