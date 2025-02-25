@@ -37,7 +37,7 @@ if isclicked("submit"):
     if checkpoints:
         for checkpoint in checkpoints.split("\n"):
             if checkpoint:
-                checkpoints_coordinates.append(get_coordinates_from_address(checkpoint, country))
+                checkpoints_coordinates.append(get_coordinates_from_address(checkpoint, country, prox=start_coordinates))
                 parsed_checkpoints.append(checkpoint)
     df = pd.DataFrame([start_coordinates, target_coordinates, *checkpoints_coordinates],
                       columns=["lon", "lat"])
@@ -48,5 +48,5 @@ if isclicked("submit"):
         st.write(f"{i+1}. {cp}")
     st.write("Link to route on GoogleMaps:")
     st.write(create_google_maps_link([start] + [parsed_checkpoints[i] for i in checkpoint_order] + [target]))
-    
+
     map(df, route)

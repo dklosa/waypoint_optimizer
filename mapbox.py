@@ -14,10 +14,11 @@ class CoordinatesNotFoundException(Exception):
         self.message = f"Coordinates were not found for address {address}"
         super().__init__(self.message)
 
-def get_coordinates_from_address(address, country):
+def get_coordinates_from_address(address, country, prox=None):
     country_code = COUNTRIES.get(country, None)
     if not country_code: st.error("Unknown country code.")
-    url = f"https://api.mapbox.com/search/geocode/v6/forward?q={address}&limit=1&country={country_code}&access_token={API_TOKEN}"
+    if prox: prox = f"&proximity={prox}"
+    url = f"https://api.mapbox.com/search/geocode/v6/forward?q={address}&limit=1&country={country_code}{prox}&access_token={API_TOKEN}"
     response = requests.get(url)
     data = json.loads(response.text)
     if len(data["features"]) == 0:
