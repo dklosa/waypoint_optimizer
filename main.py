@@ -22,7 +22,7 @@ st.header("Waypoint optimizer :car:")
 country = st.text_input("Country", key="country", value="Germany")
 start = st.text_input("Start address", key="start")
 target = st.text_input("Target address", key="target")
-checkpoints = st.text_area("Waypoint addresses", key="waypoints")
+checkpoints = st.text_area("Waypoint addresses. Write each waypoint in a new line.", key="waypoints")
 
 if st.button("Submit addresses.", key="submit"):
     click("submit")
@@ -43,5 +43,8 @@ if isclicked("submit"):
                       columns=["lon", "lat"])
     route, checkpoint_order = travelingsalesman(start_coordinates[::-1], target_coordinates[::-1], [c[::-1] for c in checkpoints_coordinates])
     map(df, route)
+    st.write("Best waypoint order:")
+    for i, cp in enumerate([parsed_checkpoints[i] for i in checkpoint_order]):
+        st.write(f"{i}. {cp}")
     st.write("Link to route on GoogleMaps:")
     st.write(create_google_maps_link([start] + [parsed_checkpoints[i] for i in checkpoint_order] + [target]))
