@@ -14,7 +14,7 @@ class CoordinatesNotFoundException(Exception):
         self.message = f"Coordinates were not found for address {address}"
         super().__init__(self.message)
 
-def get_coordinates_from_address(address, country, prox=None):
+def get_coordinates_from_address(address, country, prox=""):
     country_code = COUNTRIES.get(country, None)
     if not country_code: st.error("Unknown country code.")
     if prox: prox = f"&proximity={prox}"
