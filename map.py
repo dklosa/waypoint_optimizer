@@ -8,8 +8,8 @@ def map(df, route):
             "ScatterplotLayer",
             data=df,
             get_position="[lon, lat]",
-            get_color="[200, 30, 0, 160]",
-            get_radius=80,
+            get_color="[200, 30, 0]",
+            get_radius=150,
         ),
         pdk.Layer(
             "PathLayer",
