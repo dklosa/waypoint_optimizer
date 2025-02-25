@@ -17,7 +17,7 @@ class CoordinatesNotFoundException(Exception):
 def get_coordinates_from_address(address, country, prox=""):
     country_code = COUNTRIES.get(country, None)
     if not country_code: st.error("Unknown country code.")
-    if prox: prox = f"&proximity={prox}"
+    if prox: prox = f"&proximity={prox[0]},{prox[1]}"
     url = f"https://api.mapbox.com/search/geocode/v6/forward?q={address}&limit=1&country={country_code}{prox}&access_token={API_TOKEN}"
     response = requests.get(url)
     data = json.loads(response.text)
