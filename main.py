@@ -27,14 +27,14 @@ if st.button("Submit addresses.", key="submit"):
 if isclicked("submit"):
     if not start or not target:
         st.exception(Exception("Start and Target need to be set."))
-    start_coordinates = get_coordinates_from_address(start)
-    target_coordinates = get_coordinates_from_address(target)
+    start_coordinates = get_coordinates_from_address(start, country)
+    target_coordinates = get_coordinates_from_address(target, country)
     checkpoints_coordinates = []
     parsed_checkpoints = []
     if checkpoints:
         for checkpoint in checkpoints.split("\n"):
             if checkpoint:
-                checkpoints_coordinates.append(get_coordinates_from_address(checkpoint))
+                checkpoints_coordinates.append(get_coordinates_from_address(checkpoint, country))
                 parsed_checkpoints.append(checkpoint)
     df = pd.DataFrame([start_coordinates, target_coordinates, *checkpoints_coordinates],
                       columns=["lon", "lat"])

@@ -1,17 +1,23 @@
 import json
-import os
+import pycountry
 import requests
 import streamlit as st
 
 API_TOKEN = st.secrets["MAPBOX_API_TOKEN"]
+
+COUNTRIES = {}
+for country in pycountry.countries:
+    COUNTRIES[country.name] = country.alpha_2
 
 class CoordinatesNotFoundException(Exception):
     def __init__(self, address):
         self.message = f"Coordinates were not found for address {address}"
         super().__init__(self.message)
 
-def get_coordinates_from_address(address):
-    url = f"https://api.mapbox.com/search/geocode/v6/forward?q={address}&limit=1&access_token={API_TOKEN}"
+def get_coordinates_from_address(address, country):
+    country_code = COUNTRIES.get(country, None)
+    if not country_code: st.error("Unknown country code.")
+    url = f"https://api.mapbox.com/search/geocode/v6/forward?q={address}&limit=1&country={country_code}&access_token={API_TOKEN}"
     response = requests.get(url)
     data = json.loads(response.text)
     if len(data["features"]) == 0:
@@ -38,7 +44,7 @@ def travelingsalesman(start, target, waypoints=None):
     response = requests.get(url)
     data = json.loads(response.text)
     if not data["code"] == "Ok":
-        raise Exception("Something went wrong with Mapbox API when searching for optimal route.")
+        st.error(data["message"])
     if "trips" in data.keys():
         waypoint_order = []
         if "waypoints" in data.keys():
