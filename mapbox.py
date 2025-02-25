@@ -46,7 +46,7 @@ def travelingsalesman(start, target, waypoints=None):
             for wp in data["waypoints"]:
                 waypoint_order.append(wp["waypoint_index"])
         route_coordinates = data["trips"][0]["geometry"]["coordinates"]
-        return route_coordinates, waypoint_order
+        return route_coordinates, [w-1 for w in waypoint_order[1:-1]]
     return [], []
 
 def start_target_waypoints_to_str(start, target, waypoints):

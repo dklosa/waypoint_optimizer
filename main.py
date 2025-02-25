@@ -1,5 +1,6 @@
+from googlemaps import *
 from map import map
-from mapbox import get_coordinates_from_address, travelingsalesman
+from mapbox import *
 import pandas as pd
 import streamlit as st
 
@@ -29,10 +30,15 @@ if isclicked("submit"):
     start_coordinates = get_coordinates_from_address(start)
     target_coordinates = get_coordinates_from_address(target)
     checkpoints_coordinates = []
+    parsed_checkpoints = []
     if checkpoints:
         for checkpoint in checkpoints.split("\n"):
             if checkpoint:
                 checkpoints_coordinates.append(get_coordinates_from_address(checkpoint))
+                parsed_checkpoints.append(checkpoint)
     df = pd.DataFrame([start_coordinates, target_coordinates, *checkpoints_coordinates],
                       columns=["lon", "lat"])
-    route, waypoint_order = travelingsalesman(start_coordinates[::-1], target_coordinates[::-1], [c[::-1] for c in checkpoints_coordinates])
+    route, checkpoint_order = travelingsalesman(start_coordinates[::-1], target_coordinates[::-1], [c[::-1] for c in checkpoints_coordinates])
+    map(df, route)
+    st.write("Link to route on GoogleMaps:")
+    st.write(create_google_maps_link([start] + [parsed_checkpoints[i] for i in checkpoint_order] + [target]))
