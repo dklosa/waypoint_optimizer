@@ -17,6 +17,8 @@ def isclicked(key):
         return False
     return st.session_state.clicks[key]
 
+st.header("Waypoint optimizer :car:")
+
 country = st.text_input("Country", key="country", value="Germany")
 start = st.text_input("Start address", key="start")
 target = st.text_input("Target address", key="target")
