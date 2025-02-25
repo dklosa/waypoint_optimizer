@@ -5,6 +5,11 @@ import pandas as pd
 import streamlit as st
 from streamlit_searchbox import st_searchbox
 
+st.set_page_config(
+    page_title="Waypoint optimizer",
+    page_icon=":car:",
+)
+
 if "clicks" not in st.session_state:
     st.session_state.clicks = {}
 
