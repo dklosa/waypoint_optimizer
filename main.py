@@ -22,7 +22,7 @@ st.header("Waypoint optimizer :car:")
 country = st.text_input("Country", key="country", value="Germany")
 start = st.text_input("Start address", key="start")
 target = st.text_input("Target address", key="target")
-checkpoints = st.text_area("Waypoint addresses. Write each waypoint in a new line.", key="waypoints")
+checkpoints = st.text_area("Waypoint addresses (max. 10). Write each waypoint in a new line.", key="waypoints")
 
 if st.button("Submit addresses.", key="submit"):
     click("submit")
