@@ -25,8 +25,8 @@ def map(df, route):
     deck = pdk.Deck(
         map_style=None,
         initial_view_state=pdk.ViewState(
-            latitude=df["lat"].mean(),
-            longitude=df["lon"].mean(),
+            latitude=df.iloc[2:]["lat"].mean(),
+            longitude=df.iloc[2:]["lon"].mean(),
             zoom=11,
             pitch=50,
         ),

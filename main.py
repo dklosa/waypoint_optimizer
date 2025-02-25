@@ -17,9 +17,7 @@ def isclicked(key):
         return False
     return st.session_state.clicks[key]
 
-start = st.text_input("Start address.", key="start")
-target = st.text_input("Target address.", key="target")
-checkpoints = st.text_area("Waypoint addresses.", key="waypoints")
+country = st.text_input("Country", key="country", value="Germany")
 
 if st.button("Submit addresses.", key="submit"):
     click("submit")
