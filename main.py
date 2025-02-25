@@ -45,6 +45,6 @@ if isclicked("submit"):
     map(df, route)
     st.write("Best waypoint order:")
     for i, cp in enumerate([parsed_checkpoints[i] for i in checkpoint_order]):
-        st.write(f"{i}. {cp}")
+        st.write(f"{i+1}. {cp}")
     st.write("Link to route on GoogleMaps:")
     st.write(create_google_maps_link([start] + [parsed_checkpoints[i] for i in checkpoint_order] + [target]))
