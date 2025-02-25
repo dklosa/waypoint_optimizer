@@ -42,9 +42,11 @@ if isclicked("submit"):
     df = pd.DataFrame([start_coordinates, target_coordinates, *checkpoints_coordinates],
                       columns=["lon", "lat"])
     route, checkpoint_order = travelingsalesman(start_coordinates[::-1], target_coordinates[::-1], [c[::-1] for c in checkpoints_coordinates])
-    map(df, route)
+
     st.write("Best waypoint order:")
     for i, cp in enumerate([parsed_checkpoints[i] for i in checkpoint_order]):
         st.write(f"{i+1}. {cp}")
     st.write("Link to route on GoogleMaps:")
     st.write(create_google_maps_link([start] + [parsed_checkpoints[i] for i in checkpoint_order] + [target]))
+    
+    map(df, route)
